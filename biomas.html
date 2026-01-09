@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worldcraft Guia: Mapas e Biomas</title>
+    <link rel="icon" href="img/logo4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-grass-top: #6aa84f;
+            --color-dirt: #554433;
+            --color-stone: #444444; 
+            --color-wood: #7f6d54;
+            --color-ui-dark: #2c2c2c;
+            --color-ui-light: #6e6e6e;
+            --color-accent: #ffd700;
+            --color-nether: #8b0000;
+            --color-end: #4b0082;
+        }
+
+        body {
+            line-height: 1.5;
+            font-family: 'Inter', sans-serif;
+            background-color: #2c2c2c;
+            background-image: url('https://thumbs.dreamstime.com/z/vibrant-colorful-minecraft-landscape-adorned-adorable-bunnies-beautiful-flowers-scene-features-massive-tree-bright-353731956.jpg?ct=jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #e0e0e0;
+            padding-top: 1rem;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .container-responsivo {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .paragrafo-formatado {
+            line-height: 1.5;
+        }
+
+        .font-game-title {
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 4px 4px 0px #1c1c1c;
+        }
+
+        h2.title-block {
+            border-bottom: 6px solid var(--color-accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .link-personalizado {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid var(--color-accent);
+            transition: color 0.1s, border-bottom 0.1s;
+        }
+        .link-personalizado:hover {
+            color: white; 
+            border-bottom: 2px solid white;
+        }
+
+        .page-section {
+            border: 8px solid var(--color-stone);
+            border-radius: 4px;
+            background-color: var(--color-ui-dark); 
+            box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.7);
+            margin-top: 2.5rem !important;
+            transition: transform 0.2s;
+        }
+
+        .nav-link {
+            border: 4px solid var(--color-stone);
+            border-radius: 4px;
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.5);
+            transition: all 0.1s ease-in-out;
+            transform: translate(0, 0); 
+            color: #1c1c1c;
+            font-weight: 900;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.4); 
+            margin-top: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            transform: translate(-2px, -2px); 
+            box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.5);
+        }
+        
+        .nav-link.active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.5);
+            color: white;
+            text-shadow: 2px 2px 0px #1c1c1c;
+            border-color: var(--color-accent);
+        }
+        
+        .nav-link.active-guide {
+            background-color: #2e7d32;
+        }
+        .nav-link.active-mining {
+            background-color: #7b241c;
+        }
+        .nav-link.active-nether {
+             background-color: #512da8;
+        }
+        .nav-link.active-mybuilds {
+            background-color: #ff6e40;
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+        }
+        
+        .hamburger-menu span {
+            height: 3px;
+            width: 25px;
+            background: #e0e0e0;
+            margin-bottom: 4px;
+            border-radius: 2px;
+        }
+        
+        .nav-menu {
+            display: flex;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .hamburger-menu {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #2c2c2c;
+                z-index: 100;
+                padding: 1rem;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+            
+            .page-section {
+                margin-top: 1.5rem !important;
+            }
+            
+            .container-responsivo {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+        }
+
+        /* Estilos específicos para biomas */
+        .bioma-section {
+            margin-bottom: 2rem;
+        }
+
+        .bioma-card {
+            background: rgba(45, 90, 40, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4a9c42;
+            transition: all 0.3s ease;
+        }
+
+        .bioma-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            background: rgba(45, 90, 40, 0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .dimension-card {
+            background-color: var(--color-ui-dark);
+            border: 4px solid;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.5);
+        }
+
+        .plains-card {
+            border-color: #4a9c42;
+        }
+
+        .forest-card {
+            border-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+<div class="bg-gray-800 shadow-xl sticky top-0 z-10 border-b-8 border-gray-900/80">
+    <header class="container-responsivo py-4 relative">
+        <h1 class="text-4xl sm:text-5xl font-game-title text-center text-green-400 flex items-center justify-center gap-3">
+            <img src="img/logowordcraft.gif" alt="Ícone" class="w-10 h-10 sm:w-12 sm:h-12">
+            Worldcraft <span class="text-white">Guia</span>
+        </h1>
+        
+        <!-- BOTÃO HAMBÚRGUER MOBILE -->
+        <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu de navegação">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- MENU DE NAVEGAÇÃO -->
+        <nav class="relative">
+            <ul class="nav-menu flex justify-center space-x-2 sm:space-x-4 text-center flex-wrap" id="navMenu">
+                <li>
+                    <a href="index.html" id="nav-mobs" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Mobs
+                    </a>
+                </li>
+                <li>
+                    <a href="construcao.html" id="nav-construcao" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Construção
+                    </a>
+                </li>
+                <li>
+                    <a href="biomas.html" id="nav-biomas" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Biomas
+                    </a>
+                </li>
+                <li>
+                    <a href="mineracao.html" id="nav-mineracao" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Mineração
+                    </a>
+                </li>
+                <li>
+                    <a href="submundos.html" id="nav-submundos" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Os Submundos
+                    </a>
+                </li>
+                <li>
+                    <a href="contato.html" id="nav-contato" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Contato
+                    </a>
+                </li>
+                <li>
+                    <a href="minhas-construcoes.html" id="nav-minhas_construcoes" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-yellow-500 hover:bg-yellow-600">
+                        Minhas Construções
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</div>
+
+    <!-- MAIN CONTENT -->
+    <main class="container-responsivo py-8 sm:py-12 2xl:py-16">
+        <!-- PAGINA 3: Mapas e Biomas -->
+        <section id="mapas_biomas" class="page-section p-6">
+            <h2 class="text-3xl sm:text-4xl font-game-title text-green-400 title-block">
+                Exploração de Mapas e Biomas
+            </h2>
+
+            <p class="paragrafo-formatado mb-8 text-gray-300">
+                O mundo do Minecraft é composto por diversos biomas únicos, cada um com suas próprias características, recursos e desafios. Explorar esses ambientes é fundamental para coletar recursos específicos e descobrir estruturas raras.
+            </p>
+
+            <!-- BIOMAS PRINCIPAIS -->
+            <h3 class="text-2xl font-game-title text-green-400 mb-4 border-b-2 border-green-500 pb-2">
+                Biomas Principais do Overworld
+            </h3>
+            
+            <!-- BIOMA 1: Planície (Plains) -->
+            <div class="bioma-section mb-8">
+                <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">
+                    Planície (Plains)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    <div class="md:col-span-2">
+                        <p class="paragrafo-formatado text-gray-300 mb-4">
+                            O Bioma da Planície é um dos mais comuns e ideais para começar. É plano, rico em grama e flores. É o local perfeito para construir sua primeira casa e iniciar uma fazenda. Quase todos os mobs pacíficos podem ser encontrados aqui.
+                        </p>
+                        
+                        <div class="bioma-card plains-card">
+                            <h5 class="text-lg font-bold text-green-300 mb-2">Características Principais:</h5>
+                            <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                                <li>Terreno plano ideal para construção</li>
+                                <li>Abundância de grama e flores</li>
+                                <li>Presença de aldeias e cavalos</li>
+                                <li>Recursos: madeira de carvalho, trigo, flores</li>
+                            </ul>
+                        </div>
+                        
+                        <p class="mt-4">
+                            <a href="https://minecraft.wiki/w/Plains" target="_blank" class="link-personalizado">
+                                (Saiba mais na Wiki Oficial)
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div class="md:col-span-1 border-4 border-green-500 p-1 bg-gray-700 shadow-md">
+                        <p class="text-center text-sm mb-1 text-yellow-300 font-bold font-game-title">PLANÍCIE</p>
+                        <img src="https://i.redd.it/a55wp4c5vj9f1.png" alt="Bioma Planície" class="w-full h-auto rounded-md mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIOMA 2: Taiga (Taiga) -->
+            <div class="bioma-section mb-8">
+                <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">
+                    Taiga (Taiga)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    <div class="md:col-span-2">
+                        <p class="paragrafo-formatado text-gray-300 mb-4">
+                            A Taiga é fria e coberta por grandes árvores de pinheiro (Spruce). É uma ótima fonte de madeira escura e abriga os Lobos que podem ser domados com ossos. Cuidado com o terreno acidentado ao minerar.
+                        </p>
+                        
+                        <div class="bioma-card taiga-card">
+                            <h5 class="text-lg font-bold text-green-300 mb-2">Características Principais:</h5>
+                            <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                                <li>Florestas densas de pinheiros</li>
+                                <li>Presença de lobos domesticáveis</li>
+                                <li>Pode conter aldeias de taiga</li>
+                                <li>Recursos: madeira de pinheiro, bagas doces, samambaias</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-1 border-4 border-green-500 p-1 bg-gray-700 shadow-md">
+                        <p class="text-center text-sm mb-1 text-yellow-300 font-bold font-game-title">TAIGA</p>
+                        <img src="https://i.redd.it/fvqvquev50l61.png" alt="Bioma Taiga" class="w-full h-auto rounded-md mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIOMA 3: Deserto (Desert) -->
+            <div class="bioma-section mb-8">
+                <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">
+                    Deserto (Desert)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    <div class="md:col-span-2">
+                        <p class="paragrafo-formatado text-gray-300 mb-4">
+                            O Deserto é marcado por areia, cactos e pouca vida vegetal. Mobs hostis podem aparecer à luz do dia nas áreas sombreadas. É onde você pode encontrar os valiosos <strong>Templos do Deserto</strong> repletos de tesouros!
+                        </p>
+                        
+                        <div class="bioma-card desert-card">
+                            <h5 class="text-lg font-bold text-green-300 mb-2">Características Principais:</h5>
+                            <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                                <li>Vastas extensões de areia</li>
+                                <li>Presença de cactos e arbustos mortos</li>
+                                <li>Templos do deserto com tesouros</li>
+                                <li>Recursos: cactos, areia, arenito, ouro</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-1 border-4 border-green-500 p-1 bg-gray-700 shadow-md">
+                        <p class="text-center text-sm mb-1 text-yellow-300 font-bold font-game-title">DESERTO</p>
+                        <img src="img/deserto.jpg" alt="Bioma Deserto" class="w-full h-auto rounded-md mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIOMA 4: Floresta (Forest) -->
+            <div class="bioma-section mb-8">
+                <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">
+                    Floresta (Forest)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    <div class="md:col-span-2">
+                        <p class="paragrafo-formatado text-gray-300 mb-4">
+                            As florestas são biomas densamente arborizados com uma grande variedade de árvores. Excelente fonte de madeira, mas cuidado com a baixa visibilidade que pode esconder mobs hostis. Existem variações como Floresta de Bétula e Floresta de Flores.
+                        </p>
+                        
+                        <div class="bioma-card forest-card">
+                            <h5 class="text-lg font-bold text-green-300 mb-2">Características Principais:</h5>
+                            <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                                <li>Alta densidade de árvores</li>
+                                <li>Grande variedade de madeiras</li>
+                                <li>Abundância de flores e cogumelos</li>
+                                <li>Recursos: madeira de carvalho/bétula, maçãs, flores</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-1 border-4 border-green-500 p-1 bg-gray-700 shadow-md">
+                        <p class="text-center text-sm mb-1 text-yellow-300 font-bold font-game-title">FLORESTA</p>
+                        <img src="img/floresta.webp" alt="Bioma Floresta" class="w-full h-auto rounded-md mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIOMA 5: Montanha (Mountains) -->
+            <div class="bioma-section mb-8">
+                <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">
+                    Montanha (Mountains)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    <div class="md:col-span-2">
+                        <p class="paragrafo-formatado text-gray-300 mb-4">
+                            As montanhas oferecem terrenos extremamente acidentados com grandes elevações. São excelentes para mineração em altas altitudes, mas apresentam desafios de navegação. Podem conter emas de esmeralda e estruturas únicas.
+                        </p>
+                        
+                        <div class="bioma-card mountain-card">
+                            <h5 class="text-lg font-bold text-green-300 mb-2">Características Principais:</h5>
+                            <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                                <li>Terreno extremamente acidentado</li>
+                                <li>Neve no topo das montanhas altas</li>
+                                <li>Geração de esmeraldas</li>
+                                <li>Recursos: pedra, carvão, ferro, esmeraldas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-1 border-4 border-green-500 p-1 bg-gray-700 shadow-md">
+                        <p class="text-center text-sm mb-1 text-yellow-300 font-bold font-game-title">MONTANHA</p>
+                        <img src="img/montanha.jpg" alt="Bioma Montanha" class="w-full h-auto rounded-md mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIOMA 6: Pântano (Swamp) -->
+            <div class="bioma-section mb-8">
+                <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">
+                    Pântano (Swamp)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    <div class="md:col-span-2">
+                        <p class="paragrafo-formatado text-gray-300 mb-4">
+                            Os pântanos são biomas úmidos com água de cor esverdeada, árvores cobertas de videiras e lótus. São o lar das Bruxas e das tão procuradas Cabana das Bruxas. Excelente local para encontrar sapos e coletar argila.
+                        </p>
+                        
+                        <div class="bioma-card swamp-card">
+                            <h5 class="text-lg font-bold text-green-300 mb-2">Características Principais:</h5>
+                            <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                                <li>Água de cor esverdeada</li>
+                                <li>Presença de cabanas de bruxas</li>
+                                <li>Árvores cobertas por videiras</li>
+                                <li>Recursos: argila, lírios, cana-de-açúcar, sementes de lótus</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-1 border-4 border-green-500 p-1 bg-gray-700 shadow-md">
+                        <p class="text-center text-sm mb-1 text-yellow-300 font-bold font-game-title">PÂNTANO</p>
+                        <img src="img/Pantano.webp" alt="Bioma Pântano" class="w-full h-auto rounded-md mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIOMA 7: Oceano (Ocean) -->
+            <div class="bioma-section mb-8">
+                <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">
+                    Oceano (Ocean)
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    <div class="md:col-span-2">
+                        <p class="paragrafo-formatado text-gray-300 mb-4">
+                            Os oceanos são vastas extensões de água que separam os continentes. Podem conter monumentos oceânicos, naufrágios e recifes de coral. Requerem preparação especial para exploração, como poções de respiração aquática.
+                        </p>
+                        
+                        <div class="bioma-card ocean-card">
+                            <h5 class="text-lg font-bold text-green-300 mb-2">Características Principais:</h5>
+                            <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                                <li>Vastas extensões de água</li>
+                                <li>Monumentos oceânicos com guardiões</li>
+                                <li>Recifes de coral coloridos</li>
+                                <li>Recursos: prismarinho, esponjas, corais, tesouros submersos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-1 border-4 border-green-500 p-1 bg-gray-700 shadow-md">
+                        <p class="text-center text-sm mb-1 text-yellow-300 font-bold font-game-title">OCEANO</p>
+                        <img src="img/oceano.webp" alt="Bioma Oceano" class="w-full h-auto rounded-md mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de Comparação de Biomas -->
+            <h3 class="text-2xl font-game-title text-green-400 mb-4 border-t-4 border-green-500 pt-4">
+                Comparação Entre Biomas
+            </h3>
+            
+            <div class="table-container">
+                <div class="overflow-x-auto rounded-lg border-4 border-green-500 shadow-2xl mb-6">
+                    <table class="min-w-full divide-y-4 divide-green-800">
+                        <thead class="bg-green-900/50">
+                            <tr>
+                                <th scope="col" class="px-3 py-3 text-left text-xs font-game-title uppercase tracking-wider text-green-200">
+                                    Bioma
+                                </th>
+                                <th scope="col" class="px-3 py-3 text-left text-xs font-game-title uppercase tracking-wider text-green-200">
+                                    Recursos Exclusivos
+                                </th>
+                                <th scope="col" class="px-3 py-3 text-left text-xs font-game-title uppercase tracking-wider text-green-200">
+                                    Estruturas
+                                </th>
+                                <th scope="col" class="px-3 py-3 text-left text-xs font-game-title uppercase tracking-wider text-green-200">
+                                    Dificuldade
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-gray-800 divide-y-2 divide-green-700">
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap font-bold text-green-300">Planície</td>
+                                <td class="px-3 py-4 text-gray-200">Cavalos, aldeias, flores</td>
+                                <td class="px-3 py-4 text-gray-200">Aldeias, poços</td>
+                                <td class="px-3 py-4 text-gray-200">Fácil</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap font-bold text-green-300">Taiga</td>
+                                <td class="px-3 py-4 text-gray-200">Lobos, bagas doces, pinheiros</td>
+                                <td class="px-3 py-4 text-gray-200">Aldeias de taiga, cabanas</td>
+                                <td class="px-3 py-4 text-gray-200">Médio</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap font-bold text-green-300">Deserto</td>
+                                <td class="px-3 py-4 text-gray-200">Cactos, templos, poços</td>
+                                <td class="px-3 py-4 text-gray-200">Templos do deserto</td>
+                                <td class="px-3 py-4 text-gray-200">Médio</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap font-bold text-green-300">Floresta</td>
+                                <td class="px-3 py-4 text-gray-200">Madeiras variadas, flores</td>
+                                <td class="px-3 py-4 text-gray-200">Mansões da floresta</td>
+                                <td class="px-3 py-4 text-gray-200">Fácil</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap font-bold text-green-300">Montanha</td>
+                                <td class="px-3 py-4 text-gray-200">Esmeraldas, cabras</td>
+                                <td class="px-3 py-4 text-gray-200">Estruturas raras</td>
+                                <td class="px-3 py-4 text-gray-200">Difícil</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap font-bold text-green-300">Pântano</td>
+                                <td class="px-3 py-4 text-gray-200">Argila, lírios, sapos</td>
+                                <td class="px-3 py-4 text-gray-200">Cabana das bruxas</td>
+                                <td class="px-3 py-4 text-gray-200">Médio</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap font-bold text-green-300">Oceano</td>
+                                <td class="px-3 py-4 text-gray-200">Prismarinho, corais, tesouros</td>
+                                <td class="px-3 py-4 text-gray-200">Monumentos, naufrágios</td>
+                                <td class="px-3 py-4 text-gray-200">Difícil</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mapa do Mundo -->
+            <div class="mt-8 p-4 bg-gray-700 rounded-md border-4 border-green-500">
+                <h3 class="text-xl font-game-title text-green-400 mb-4 text-center">Mapa do Mundo Minecraft</h3>
+                
+                <img src="img/mapa minecraft2.webp" alt="Mapa do Mundo Minecraft" 
+                     class="w-full md:w-1/2 h-auto rounded-md mb-4 mx-auto block">
+                
+                <p class="text-center text-gray-300">
+                    O mundo do Minecraft é virtualmente infinito, com biomas gerados proceduralmente. Cada mundo é único, oferecendo experiências diferentes a cada nova aventura!
+                </p>
+            </div>
+
+            <!-- Dicas de Exploração -->
+            <h3 class="text-2xl font-game-title text-yellow-400 mb-4 border-t-4 border-yellow-500 pt-4">
+                Dicas de Exploração
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="dimension-card plains-card">
+                    <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">Preparação para Exploração</h4>
+                    <ul class="list-disc list-inside ml-4 text-gray-300 space-y-2">
+                        <li>Leve suprimentos adequados para cada bioma</li>
+                        <li>Marque seu caminho com tochas ou blocos</li>
+                        <li>Construa abrigos temporários durante a noite</li>
+                        <li>Use mapas ou coordenadas para não se perder</li>
+                        <li>Prepare equipamentos específicos (botas para neve, etc.)</li>
+                    </ul>
+                </div>
+                
+                <div class="dimension-card forest-card">
+                    <h4 class="text-xl font-bold text-green-300 mb-2 font-game-title">Recursos por Bioma</h4>
+                    <ul class="list-disc list-inside ml-4 text-gray-300 space-y-2">
+                        <li>Planícies: melhores para construção inicial</li>
+                        <li>Florestas: melhor fonte de madeira</li>
+                        <li>Montanhas: mineração de alto nível</li>
+                        <li>Oceanos: tesouros e recursos aquáticos</li>
+                        <li>Pântanos: poções e materiais únicos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Link para topo -->
+            <a href="#top" class="text-sm font-game-title text-green-500 hover:text-green-300 transition duration-200 block text-right mt-4">
+                [TOPO]
+            </a>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+<footer class="bg-gray-900 mt-12 py-6 border-t-8 border-gray-700">
+    <div class="container-responsivo text-center text-gray-400 text-sm font-game-title">
+        <p>&copy; 2025 Worldcraft Guia. Não afiliado à Mojang Studios.</p>
+    </div>
+</footer>
+
+<script>
+    // ============================================
+    // MENU HAMBÚRGUER MOBILE - CÓDIGO COMPLETO
+    // ============================================
+    
+    // Aguarda o DOM carregar completamente
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Iniciando configuração do menu mobile...');
+        
+        // 1. ELEMENTOS DO MENU
+        const hamburgerBtn = document.getElementById('hamburgerMenu');
+        const navMenu = document.getElementById('navMenu');
+        
+        // Verificar se os elementos existem
+        if (!hamburgerBtn) {
+            console.error('❌ Botão hambúrguer não encontrado! Verifique o ID "hamburgerMenu"');
+            return;
+        }
+        
+        if (!navMenu) {
+            console.error('❌ Menu de navegação não encontrado! Verifique o ID "navMenu"');
+            return;
+        }
+        
+        console.log('✅ Elementos encontrados:');
+        console.log('   - Hambúrguer:', hamburgerBtn);
+        console.log('   - Menu:', navMenu);
+        
+        // 2. FUNÇÕES DO MENU
+        function toggleMenu() {
+            console.log('🔄 Alternando menu...');
+            
+            // Alternar classe 'active'
+            const isNowActive = !navMenu.classList.contains('active');
+            navMenu.classList.toggle('active');
+            
+            // Animar o botão hambúrguer (transformar em X)
+            const spans = hamburgerBtn.querySelectorAll('span');
+            
+            if (isNowActive) {
+                // Quando ABRE o menu (transforma em X)
+                console.log('📱 Abrindo menu mobile');
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                // Quando FECHA o menu (volta ao hambúrguer)
+                console.log('📱 Fechando menu mobile');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        }
+        
+        function closeMenu() {
+            console.log('📱 Fechando menu...');
+            navMenu.classList.remove('active');
+            
+            // Resetar animação do hambúrguer
+            const spans = hamburgerBtn.querySelectorAll('span');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+        
+        // 3. EVENT LISTENERS
+        
+        // Evento no botão hambúrguer
+        hamburgerBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            console.log('🖱️ Hambúrguer clicado!');
+            toggleMenu();
+        });
+        
+        // Fechar menu ao clicar nos links
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                console.log('🔗 Link clicado:', this.textContent.trim());
+                closeMenu();
+            });
+        });
+        
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', function(event) {
+            if (!hamburgerBtn.contains(event.target) && !navMenu.contains(event.target)) {
+                if (navMenu.classList.contains('active')) {
+                    console.log('🌍 Clicou fora do menu, fechando...');
+                    closeMenu();
+                }
+            }
+        });
+        
+        // Fechar menu ao pressionar ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+                console.log('⎋ Tecla ESC pressionada, fechando menu...');
+                closeMenu();
+            }
+        });
+        
+        // Fechar menu ao redimensionar para desktop
+        function handleResize() {
+            if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+                console.log('🖥️ Tela redimensionada para desktop, fechando menu...');
+                closeMenu();
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
+        
+        // Verificar tamanho inicial
+        if (window.innerWidth <= 768) {
+            console.log('📱 Dispositivo mobile detectado');
+        } else {
+            console.log('🖥️ Dispositivo desktop detectado');
+        }
+        
+        console.log('✅ Menu mobile configurado com sucesso!');
+    });
+    
+    // ============================================
+    // FORMULÁRIOS (demonstração)
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form');
+        if (forms.length > 0) {
+            console.log(`📋 ${forms.length} formulário(s) encontrado(s)`);
+            
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    alert('✅ Formulário enviado com sucesso!\n(Esta é apenas uma demonstração)');
+                    this.reset();
+                });
+            });
+        }
+    });
+    
+    // ============================================
+    // CARRUSSEL (apenas na página minhas-construcoes)
+    // ============================================
+    if (window.location.href.includes('minhas-construcoes')) {
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎠 Configurando carrossel...');
+            
+            const carouselSlide = document.getElementById('carouselSlide');
+            const carouselIndicators = document.getElementById('carouselIndicators');
+            
+            if (!carouselSlide || !carouselIndicators) {
+                console.log('⚠️ Elementos do carrossel não encontrados');
+                return;
+            }
+            
+            const slides = carouselSlide.querySelectorAll('img');
+            console.log(`📸 ${slides.length} imagens encontradas no carrossel`);
+            
+            if (slides.length === 0) {
+                console.log('⚠️ Nenhuma imagem no carrossel');
+                return;
+            }
+            
+            let currentSlide = 0;
+            
+            // Criar indicadores
+            slides.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'carousel-indicator';
+                if (index === 0) indicator.classList.add('active');
+                
+                indicator.addEventListener('click', () => {
+                    console.log(`🔘 Indicador ${index + 1} clicado`);
+                    currentSlide = index;
+                    updateCarousel();
+                });
+                
+                carouselIndicators.appendChild(indicator);
+            });
+            
+            // Função para atualizar carrossel
+            function updateCarousel() {
+                console.log(`🔄 Carrossel: slide ${currentSlide + 1} de ${slides.length}`);
+                carouselSlide.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                document.querySelectorAll('.carousel-indicator').forEach((indicator, idx) => {
+                    indicator.classList.toggle('active', idx === currentSlide);
+                });
+            }
+            
+            // Botões de navegação (globais para os botões HTML)
+            window.nextSlide = function() {
+                console.log('⏭️ Próximo slide');
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateCarousel();
+            };
+            
+            window.prevSlide = function() {
+                console.log('⏮️ Slide anterior');
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateCarousel();
+            };
+            
+            // Auto-avanço (opcional)
+            let autoSlideInterval;
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(() => {
+                    window.nextSlide();
+                }, 5000); // Muda a cada 5 segundos
+            }
+            
+            function stopAutoSlide() {
+                if (autoSlideInterval) {
+                    clearInterval(autoSlideInterval);
+                }
+            }
+            
+            // Iniciar auto-slide e parar ao interagir
+            startAutoSlide();
+            
+            // Pausar auto-slide ao passar mouse
+            carouselSlide.addEventListener('mouseenter', stopAutoSlide);
+            carouselSlide.addEventListener('mouseleave', startAutoSlide);
+            
+            // Inicializar
+            updateCarousel();
+            console.log('✅ Carrossel configurado com sucesso!');
+        });
+    }
+    
+    // ============================================
+    // INICIALIZAÇÃO GERAL
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🎮 Worldcraft Guia - Site carregado com sucesso!');
+        console.log('📱 Página atual:', window.location.pathname);
+        console.log('🔧 Pronto para explorar o Minecraft!');
+    });
+</script>
+</body>
+</html>

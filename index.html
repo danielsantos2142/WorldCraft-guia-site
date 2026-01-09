@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worldcraft Guia: Mobs, Biomas e Construções</title>
+    <link rel="icon" href="img/logo4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- REMOVIDO BOOTSTRAP PARA EVITAR CONFLITOS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-grass-top: #6aa84f;
+            --color-dirt: #554433;
+            --color-stone: #444444; 
+            --color-wood: #7f6d54;
+            --color-ui-dark: #2c2c2c;
+            --color-ui-light: #6e6e6e;
+            --color-accent: #ffd700;
+            --color-nether: #8b0000;
+            --color-end: #4b0082;
+        }
+
+        body {
+            line-height: 1.5;
+            font-family: 'Inter', sans-serif;
+            background-color: #2c2c2c;
+            background-image: url('https://thumbs.dreamstime.com/z/vibrant-colorful-minecraft-landscape-adorned-adorable-bunnies-beautiful-flowers-scene-features-massive-tree-bright-353731956.jpg?ct=jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #e0e0e0;
+            padding-top: 1rem;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .container-responsivo {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .paragrafo-formatado {
+            line-height: 1.5;
+        }
+
+        .font-game-title {
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 4px 4px 0px #1c1c1c;
+        }
+
+        h2.title-block {
+            border-bottom: 6px solid var(--color-accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .link-personalizado {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid var(--color-accent);
+            transition: color 0.1s, border-bottom 0.1s;
+        }
+        .link-personalizado:hover {
+            color: white; 
+            border-bottom: 2px solid white;
+        }
+
+        .page-section {
+            border: 8px solid var(--color-stone);
+            border-radius: 4px;
+            background-color: var(--color-ui-dark); 
+            box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.7);
+            margin-top: 2.5rem !important;
+            transition: transform 0.2s;
+        }
+
+        .nav-link {
+            border: 4px solid var(--color-stone);
+            border-radius: 4px;
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.5);
+            transition: all 0.1s ease-in-out;
+            transform: translate(0, 0); 
+            color: #1c1c1c;
+            font-weight: 900;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.4); 
+            margin-top: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            transform: translate(-2px, -2px); 
+            box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.5);
+        }
+        
+        .nav-link.active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.5);
+            color: white;
+            text-shadow: 2px 2px 0px #1c1c1c;
+            border-color: var(--color-accent);
+        }
+        
+        .nav-link.active-guide {
+            background-color: #2e7d32;
+        }
+        .nav-link.active-mining {
+            background-color: #7b241c;
+        }
+        .nav-link.active-nether {
+             background-color: #512da8;
+        }
+        .nav-link.active-mybuilds {
+            background-color: #ff6e40;
+        }
+
+        .mob-card {
+            background-color: var(--color-ui-light);
+            border: 4px solid var(--color-ui-light);
+            border-radius: 2px;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .mob-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.6);
+        }
+
+        .icon-enderman {
+            height: 1.5em;
+            width: auto;
+            vertical-align: middle;
+            margin-left: 4px;
+            image-rendering: pixelated;
+            display: inline-block; 
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+            position: absolute;
+            top: 20px;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        .hamburger-menu span {
+            height: 3px;
+            width: 25px;
+            background: #e0e0e0;
+            margin-bottom: 4px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+        
+        .nav-menu {
+            display: flex;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .hamburger-menu {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: rgba(44, 44, 44, 0.95);
+                backdrop-filter: blur(10px);
+                z-index: 999;
+                padding: 1rem;
+                border-top: 4px solid var(--color-stone);
+                border-bottom: 8px solid var(--color-stone);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin: 0.5rem 0;
+                width: 100%;
+            }
+            
+            .nav-menu .nav-link {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .mob-card {
+                max-width: 100%;
+            }
+            
+            .page-section {
+                margin-top: 1.5rem !important;
+            }
+            
+            .container-responsivo {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            
+            header {
+                padding-bottom: 2rem !important;
+            }
+        }
+
+        .form-container {
+            background-color: var(--color-ui-dark);
+            border: 4px solid var(--color-stone);
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--color-accent);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #3c3c3c;
+            border: 2px solid var(--color-stone);
+            border-radius: 4px;
+            color: #e0e0e0;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+        }
+        
+        .form-submit {
+            background-color: var(--color-accent);
+            color: #1c1c1c;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .form-submit:hover {
+            background-color: #ffec8b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+<div class="bg-gray-800 shadow-xl sticky top-0 z-10 border-b-8 border-gray-900/80">
+    <header class="container-responsivo py-4 relative">
+        <h1 class="text-4xl sm:text-5xl font-game-title text-center text-green-400 flex items-center justify-center gap-3">
+            <img src="img/logowordcraft.gif" alt="Ícone" class="w-10 h-10 sm:w-12 sm:h-12">
+            Worldcraft <span class="text-white">Guia</span>
+        </h1>
+        
+        <!-- BOTÃO HAMBÚRGUER MOBILE -->
+        <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu de navegação">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- MENU DE NAVEGAÇÃO -->
+        <nav class="relative">
+            <ul class="nav-menu flex justify-center space-x-2 sm:space-x-4 text-center flex-wrap" id="navMenu">
+                <li>
+                    <a href="index.html" id="nav-mobs" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Mobs
+                    </a>
+                </li>
+                <li>
+                    <a href="construcao.html" id="nav-construcao" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Construção
+                    </a>
+                </li>
+                <li>
+                    <a href="biomas.html" id="nav-biomas" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Biomas
+                    </a>
+                </li>
+                <li>
+                    <a href="mineracao.html" id="nav-mineracao" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Mineração
+                    </a>
+                </li>
+                <li>
+                    <a href="submundos.html" id="nav-submundos" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Os Submundos
+                    </a>
+                </li>
+                <li>
+                    <a href="contato.html" id="nav-contato" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-green-500 hover:bg-green-600">
+                        Contato
+                    </a>
+                </li>
+                <li>
+                    <a href="minhas-construcoes.html" id="nav-minhas_construcoes" class="nav-link px-3 py-2 text-xs sm:text-base transition duration-300 bg-yellow-500 hover:bg-yellow-600">
+                        Minhas Construções
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</div>
+
+    <!-- MAIN CONTENT -->
+    <main class="container-responsivo py-8 sm:py-12 2xl:py-16">
+        <!-- PAGINA 1: Mobs & Criaturas -->
+        <section id="mobs" class="page-section p-6 transition duration-500">
+            <h2 class="text-3xl sm:text-4xl font-game-title text-green-400 title-block">
+                Guia de Mobs e Criaturas
+            </h2>
+
+            <p class="paragrafo-formatado mb-8 text-gray-300">
+                Descubra os detalhes essenciais sobre as criaturas que você encontrará no seu mundo.
+                com as criaturas mais perigosas!
+            </p>
+            
+            <!-- Mobs Hostis -->
+            <h3 class="text-2xl font-game-title text-red-400 mb-6">
+                Mobs Hostis (Perigo Constante)
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <!-- Card do Creeper -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-green-900 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-green-300 mb-3 border-b border-green-600 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <span class="w-3 h-3 bg-green-400 rounded-full"></span>
+                                Creeper
+                                <img src="img/rosto creeper.jpg" alt="Rosto de Creeper" class="icon-enderman w-6 h-6">
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/creeperso.gif" alt="Creeper" class="w-full h-auto max-w-[300px] max-h-[300px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-green-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Explode ao se aproximar.</span> Mantenha distância ou elimine rapidamente antes que detone.
+                        </p>
+                        <div class="drop-info bg-green-950 px-3 py-2 rounded border border-green-700">
+                            <p class="text-sm text-green-300 font-game-title">
+                                <span class="font-bold">Drop Principal:</span> Pólvora
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card do Esqueleto -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-gray-700 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-gray-100 mb-3 border-b border-gray-500 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <span class="w-3 h-3 bg-gray-300 rounded-full"></span>
+                                Esqueleto
+                                <img src="img/esqueleto incon.jpg" alt="Rosto de Esqueleto" class="icon-enderman w-6 h-6">
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/esqueleto gift.gif" alt="Esqueleto" class="w-full h-auto max-w-[280px] max-h-[280px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-gray-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Atira flechas de longe.</span> Procure cobertura ou se aproxime rapidamente com sua espada.
+                        </p>
+                        <div class="drop-info bg-gray-900 px-3 py-2 rounded border border-gray-600">
+                            <p class="text-sm text-gray-300 font-game-title">
+                                <span class="font-bold">Drop Principal:</span> Ossos, Flechas
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card do Enderman -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-purple-900 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-violet-300 mb-3 border-b border-violet-600 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <span class="w-3 h-3 bg-purple-400 rounded-full"></span>
+                                Enderman
+                                <img src="img/logo enderman.jpg" alt="Olhos de Enderman" class="icon-enderman w-6 h-6">
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="https://minecraft.wiki/images/Enderman_Idle_%28Dungeons%29.gif?4d9cf" alt="Enderman" class="w-full h-auto max-w-[250px] max-h-[250px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-violet-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Se teleporta e pega blocos.</span> Evite contato visual! Lute em áreas baixas - ele não gosta de água!
+                        </p>
+                        <div class="drop-info bg-purple-950 px-3 py-2 rounded border border-purple-700">
+                            <p class="text-sm text-violet-300 font-game-title">
+                                <span class="font-bold">Drop Principal:</span> Olho do Enderman
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobs Pacíficos -->
+            <h3 class="text-2xl font-game-title text-blue-400 mb-6">
+                Mobs Pacíficos (Seus Aliados)
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <!-- Card da Vaca -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-brown-800 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-brown-200 mb-3 border-b border-brown-600 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <span class="w-3 h-3 bg-brown-400 rounded-full"></span>
+                                Vaca
+                                <img src="img/vacalogo.png" alt="Rosto de Vaca" class="icon-enderman w-6 h-6">
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/vaca.gif" alt="Vaca" class="w-full h-auto max-w-[300px] max-h-[300px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-brown-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Fonte de Couro e Leite.</span> Essencial para criação e recursos alimentares.
+                        </p>
+                        <div class="drop-info bg-brown-900 px-3 py-2 rounded border border-brown-600">
+                            <p class="text-sm text-brown-300 font-game-title">
+                                <span class="font-bold">Item de Criação:</span> Trigo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card do Porco -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-pink-800 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-pink-200 mb-3 border-b border-pink-600 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <span class="w-3 h-3 bg-pink-400 rounded-full"></span>
+                                Porco
+                                <img src="img/porcologo.webp" alt="Rosto de Porco" class="icon-enderman w-6 h-6">
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/porcogif.gif" alt="Porco" class="w-full h-auto max-w-[280px] max-h-[280px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-pink-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Fonte de Carne de Porco.</span> Excelente alimento para suas aventuras.
+                        </p>
+                        <div class="drop-info bg-pink-900 px-3 py-2 rounded border border-pink-600">
+                            <p class="text-sm text-pink-300 font-game-title">
+                                <span class="font-bold">Item de Criação:</span> Cenoura, Batata ou Beterraba
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card da Ovelha -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-gray-600 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-gray-100 mb-3 border-b border-gray-400 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <span class="w-3 h-3 bg-white rounded-full"></span>
+                                Ovelha
+                                <img src="img/ovelhalogo.png" alt="Rosto de Ovelha" class="icon-enderman w-6 h-6">
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/ovelhagif.gif" alt="Ovelha" class="w-full h-auto max-w-[250px] max-h-[250px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-gray-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Fonte de Lã.</span> Para camas, decorações e banners coloridos.
+                        </p>
+                        <div class="drop-info bg-gray-700 px-3 py-2 rounded border border-gray-500">
+                            <p class="text-sm text-gray-300 font-game-title">
+                                <span class="font-bold">Item de Criação:</span> Trigo
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobs Especiais - Aldeão e Afins -->
+            <h3 class="text-2xl font-game-title text-emerald-400 mb-6">
+                Habitantes do Mundo
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <!-- Card do Aldeão -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-emerald-800 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-emerald-200 mb-3 border-b border-emerald-600 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-3">
+                                <span class="w-4 h-4 bg-emerald-400 rounded-full flex-shrink-0"></span>
+                                <span class="flex items-center gap-2">
+                                    Aldeão
+                                    <img src="img/aldeaologo.jpg" alt="Rosto de Aldeão" class="w-7 h-7">
+                                </span>
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/aldeaogif.gif" alt="Aldeão" class="w-full h-auto max-w-[270px] max-h-[270px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-emerald-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Mestre das trocas comerciais.</span> Oferece recursos únicos por esmeraldas.
+                        </p>
+                        <div class="drop-info bg-emerald-900 px-3 py-2 rounded border border-emerald-600">
+                            <p class="text-sm text-emerald-300 font-game-title">
+                                <span class="font-bold">Item de Criação:</span> Pão e Cenoura
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card do Pillager -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-red-800 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-red-200 mb-3 border-b border-red-600 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-3">
+                                <span class="w-4 h-4 bg-red-500 rounded-full flex-shrink-0"></span>
+                                <span class="flex items-center gap-2">
+                                    Pillager
+                                    <img src="img/apilagersincon.gif" alt="Rosto de Pillager" class="w-7 h-7">
+                                </span>
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/pillagergif.webp" alt="Pillager" class="w-full h-auto max-w-[270px] max-h-[270px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-red-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Inimigo das vilas.</span> Ataca com besta e pode causar efeito de Má Sorte.
+                        </p>
+                        <div class="drop-info bg-red-900 px-3 py-2 rounded border border-red-600">
+                            <p class="text-sm text-red-300 font-game-title">
+                                <span class="font-bold">Drop Principal:</span> Besta, Bandeira Ominosa
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card do Vendedor Ambulante -->
+                <div class="mob-card rounded-md shadow-lg overflow-hidden">
+                    <div class="image-container bg-cyan-800 p-2 h-2/3 flex flex-col">
+                        <h4 class="text-xl font-bold text-cyan-200 mb-3 border-b border-cyan-600 pb-2 font-game-title text-shadow-sm flex items-center justify-between">
+                            <span class="flex items-center gap-3">
+                                <span class="w-4 h-4 bg-cyan-400 rounded-full flex-shrink-0"></span>
+                                <span class="flex items-center gap-2">
+                                    Vendedor
+                                    <img src="img/vendedoresmeraldalogo.gif" alt="Rosto de Vendedor" class="w-10 h-10">
+                                </span>
+                            </span>
+                        </h4>
+                        <div class="flex-1 flex items-center justify-center">
+                            <img src="img/vendedor.png" alt="Vendedor" class="w-full h-auto max-w-[260px] max-h-[260px] rounded-md object-contain">
+                        </div>
+                    </div>
+                    
+                    <div class="info-container bg-gray-800 p-4 h-1/3">
+                        <p class="text-sm text-cyan-200 mb-3 leading-relaxed">
+                            <span class="font-semibold">Comerciante nômade.</span> Oferece itens exóticos e raros em troca de esmeraldas.
+                        </p>
+                        <div class="drop-info bg-cyan-900 px-3 py-2 rounded border border-cyan-600">
+                            <p class="text-sm text-cyan-300 font-game-title">
+                                <span class="font-bold">Oferta Especial:</span> Itens exóticos
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Feedback sobre Mobs -->
+            <div class="form-container mt-8">
+                <h3 class="text-xl font-game-title text-green-400 mb-4">Qual mob você mais tem dificuldade?</h3>
+                <form id="mobFeedbackForm" method="post" action="/submit-mob-feedback">
+                    <div class="form-group">
+                        <label for="mobName" class="form-label">Nome do Mob:</label>
+                        <input type="text" id="mobName" name="mobName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="difficultyLevel" class="form-label">Nível de Dificuldade:</label>
+                        <select id="difficultyLevel" name="difficultyLevel" class="form-input" required>
+                            <option value="">Selecione...</option>
+                            <option value="easy">Fácil</option>
+                            <option value="medium">Médio</option>
+                            <option value="hard">Difícil</option>
+                            <option value="very-hard">Muito Difícil</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobComment" class="form-label">Comentário:</label>
+                        <textarea id="mobComment" name="mobComment" class="form-input" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Enviar Feedback</button>
+                </form>
+            </div>
+
+            <!-- Link para topo -->
+            <a href="#top" class="text-sm font-game-title text-green-500 hover:text-green-300 transition duration-200 block text-right mt-4">
+                [TOPO]
+            </a>
+        </section>
+    </main>
+
+   <!-- FOOTER -->
+<footer class="bg-gray-900 mt-12 py-6 border-t-8 border-gray-700">
+    <div class="container-responsivo text-center text-gray-400 text-sm font-game-title">
+        <p>&copy; 2025 Worldcraft Guia. Não afiliado à Mojang Studios.</p>
+    </div>
+</footer>
+
+<script>
+    // ============================================
+    // MENU HAMBÚRGUER - VERSÃO SIMPLIFICADA E FUNCIONAL
+    // ============================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburgerBtn = document.getElementById('hamburgerMenu');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (!hamburgerBtn || !navMenu) return;
+        
+        // Função para alternar menu
+        function toggleMenu() {
+            navMenu.classList.toggle('active');
+            hamburgerBtn.classList.toggle('active');
+        }
+        
+        // Função para fechar menu
+        function closeMenu() {
+            navMenu.classList.remove('active');
+            hamburgerBtn.classList.remove('active');
+        }
+        
+        // Evento no botão hambúrguer
+        hamburgerBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            toggleMenu();
+        });
+        
+        // Fechar menu ao clicar nos links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                // Fecha o menu
+                closeMenu();
+            });
+        });
+        
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', function(event) {
+            if (!hamburgerBtn.contains(event.target) && !navMenu.contains(event.target)) {
+                closeMenu();
+            }
+        });
+        
+        // Fechar menu ao pressionar ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
+        
+        // Fechar menu ao redimensionar para desktop
+        function handleResize() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
+    });
+    
+    // ============================================
+    // FORMULÁRIOS (demonstração)
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form');
+        if (forms.length > 0) {
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    alert('✅ Formulário enviado com sucesso!\n(Esta é apenas uma demonstração)');
+                    this.reset();
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>
